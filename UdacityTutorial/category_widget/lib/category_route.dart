@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
+import 'api.dart';
 import 'backdrop.dart';
 import 'category.dart';
 import 'category_tile.dart';
@@ -87,8 +88,11 @@ class _CategoryRouteState extends State<CategoryRoute> {
     super.didChangeDependencies();
     // We have static unit conversions located in our
     // assets/data/regular_units.json
+    // and we want to also obtain up-to-date Currency conversions from the web
+    // We only want to load our data in once
     if (_categories.isEmpty) {
       await _retrieveLocalCategories();
+      await _retrieveApiCategory();
     }
   }
 
@@ -96,7 +100,8 @@ class _CategoryRouteState extends State<CategoryRoute> {
   Future<void> _retrieveLocalCategories() async {
     // Consider omitting the types for local variables. For more details on Effective
     // Dart Usage, see https://www.dartlang.org/guides/language/effective-dart/usage
-    final json = DefaultAssetBundle.of(context)
+    final json = DefaultAssetBundle
+        .of(context)
         .loadString('assets/data/regular_units.json');
     final data = JsonDecoder().convert(await json);
     if (data is! Map) {
@@ -123,6 +128,38 @@ class _CategoryRouteState extends State<CategoryRoute> {
     });
   }
 
+  /// Retrieves a [Category] and its [Unit]s from an API on the web
+  Future<void> _retrieveApiCategory() async {
+    // Add a placeholder while we fetch the Currency category using the API
+    setState(() {
+      _categories.add(Category(
+        name: apiCategory['name'],
+        units: [],
+        color: _baseColors.last,
+        iconLocation: _icons.last,
+      ));
+    });
+    final api = Api();
+    final jsonUnits = await api.getUnits(apiCategory['route']);
+    // If the API errors out or we have no internet connection, this category
+    // remains in placeholder mode (disabled)
+    if (jsonUnits != null) {
+      final units = <Unit>[];
+      for (var unit in jsonUnits) {
+        units.add(Unit.fromJson(unit));
+      }
+      setState(() {
+        _categories.removeLast();
+        _categories.add(Category(
+          name: apiCategory['name'],
+          units: units,
+          color: _baseColors.last,
+          iconLocation: _icons.last,
+        ));
+      });
+    }
+  }
+
   /// Function to call when a [Category] is tapped.
   void _onCategoryTap(Category category) {
     setState(() {
@@ -138,9 +175,13 @@ class _CategoryRouteState extends State<CategoryRoute> {
     if (deviceOrientation == Orientation.portrait) {
       return ListView.builder(
         itemBuilder: (BuildContext context, int index) {
+          var _category = _categories[index];
           return CategoryTile(
-            category: _categories[index],
-            onTap: _onCategoryTap,
+            category: _category,
+            onTap:
+                _category.name == apiCategory['name'] && _category.units.isEmpty
+                    ? null
+                    : _onCategoryTap,
           );
         },
         itemCount: _categories.length,
