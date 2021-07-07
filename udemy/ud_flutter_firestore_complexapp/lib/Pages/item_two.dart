@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 
 class ItemTwo extends StatefulWidget {
   const ItemTwo({Key? key}) : super(key: key);
@@ -8,8 +10,24 @@ class ItemTwo extends StatefulWidget {
 }
 
 class _ItemTwoState extends State<ItemTwo> {
+  Future _getHomePosts() async {
+    var firestore = FirebaseFirestore.instance;
+    QuerySnapshot snap = await firestore.collection("HomeData").get();
+    return snap.docs;
+  }
+
+  Future<Null> getRegresh() async {
+    await Future.delayed(const Duration(seconds: 3));
+
+    setState(() {
+      _getHomePosts();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Scaffold(
+      backgroundColor: Colors.grey,
+    );
   }
 }

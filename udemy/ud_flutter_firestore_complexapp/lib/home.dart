@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ud_flutter_firestire_complexapp/Pages/item_one.dart';
 import 'package:ud_flutter_firestire_complexapp/Pages/item_two.dart';
 import 'package:ud_flutter_firestire_complexapp/Pages/item_three.dart';
@@ -55,7 +54,9 @@ class _HomeState extends State<Home> {
           ),
         ],
         onTap: (int index) {
-          _indexPage = index;
+          setState(() {
+            _indexPage = index;
+          });
         },
       ),
     );
