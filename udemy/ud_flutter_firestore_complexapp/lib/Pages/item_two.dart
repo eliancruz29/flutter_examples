@@ -28,6 +28,16 @@ class _ItemTwoState extends State<ItemTwo> {
     });
   }
 
+  final List<MaterialColor> _colorItem = [
+    Colors.green,
+    Colors.yellow,
+    Colors.purple,
+    Colors.deepOrange,
+    Colors.pink,
+    Colors.amber,
+    Colors.red,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +55,8 @@ class _ItemTwoState extends State<ItemTwo> {
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
                   var ourData = snapshot.data?[index];
+
+                  var _color = _colorItem[index % _colorItem.length];
 
                   return Container(
                     height: 406.0,
@@ -70,7 +82,7 @@ class _ItemTwoState extends State<ItemTwo> {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  backgroundColor: Colors.deepOrange,
+                                  backgroundColor: _color,
                                 ),
                                 const SizedBox(width: 10.0),
                                 Text(
