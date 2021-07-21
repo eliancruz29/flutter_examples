@@ -30,7 +30,7 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: CurvedNavigationBar(
         color: Colors.deepOrange,
         buttonBackgroundColor: Colors.black,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         animationCurve: Curves.easeInOut,
         animationDuration: const Duration(
           milliseconds: 600,
