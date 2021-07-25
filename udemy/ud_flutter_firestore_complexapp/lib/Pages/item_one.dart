@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -98,20 +100,31 @@ class _ItemOneState extends State<ItemOne> {
                                 ),
                                 Align(
                                   alignment: Alignment.bottomRight,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(10.0),
-                                    margin: const EdgeInsets.all(10.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      color: color,
-                                    ),
-                                    child: const Text(
-                                      "View detail",
-                                      style: TextStyle(
-                                        fontSize: 18.0,
-                                        color: Colors.white,
+                                  child: InkWell(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(10.0),
+                                      margin: const EdgeInsets.all(10.0),
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                        color: color,
+                                      ),
+                                      child: const Text(
+                                        "View detail",
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
+                                    onTap: () {
+                                      customDialog(
+                                        context,
+                                        ourData?.get("img"),
+                                        ourData?.get("title"),
+                                        ourData?.get("des"),
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
@@ -127,6 +140,80 @@ class _ItemOneState extends State<ItemOne> {
           }
         },
       ),
+    );
+  }
+
+  customDialog(
+    BuildContext ctx,
+    String img,
+    String title,
+    String des,
+  ) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Container(
+            height: MediaQuery.of(context).size.height / 1.2,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              gradient: const LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.deepPurple,
+                  Colors.deepOrange,
+                  Colors.green,
+                ],
+              ),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 150.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.network(
+                        img,
+                        width: MediaQuery.of(context).size.width,
+                        height: 150.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 6.0),
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      title.toUpperCase(),
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      des,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
