@@ -55,7 +55,6 @@ class _ItemTwoState extends State<ItemTwo> {
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
                   var ourData = snapshot.data?[index];
-
                   var _color = _colorItem[index % _colorItem.length];
 
                   return Container(
@@ -93,14 +92,25 @@ class _ItemTwoState extends State<ItemTwo> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const Expanded(
+                                Expanded(
                                   child: Align(
                                     alignment: Alignment.centerRight,
                                     child: Padding(
-                                      padding: EdgeInsets.only(right: 10.0),
-                                      child: Icon(
-                                        Icons.more_horiz,
-                                        size: 30.0,
+                                      padding:
+                                          const EdgeInsets.only(right: 10.0),
+                                      child: InkWell(
+                                        child: const Icon(
+                                          Icons.more_horiz,
+                                          size: 30.0,
+                                        ),
+                                        onTap: () {
+                                          customDialog(
+                                            context,
+                                            ourData?.get("image"),
+                                            ourData?.get("title"),
+                                            ourData?.get("des"),
+                                          );
+                                        },
                                       ),
                                     ),
                                   ),
@@ -146,6 +156,75 @@ class _ItemTwoState extends State<ItemTwo> {
           }
         },
       ),
+    );
+  }
+
+  customDialog(BuildContext ctx, String img, String title, String des) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Container(
+            height: MediaQuery.of(context).size.height / 1.2,
+            width: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              gradient: const LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.deepPurple,
+                  Colors.deepOrange,
+                  Colors.green,
+                ],
+              ),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 150.0,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20.0),
+                      child: Image.network(
+                        img,
+                        width: MediaQuery.of(context).size.width,
+                        height: 150.0,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 6.0),
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      title.toUpperCase(),
+                      style: const TextStyle(
+                        fontSize: 20.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      des,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
