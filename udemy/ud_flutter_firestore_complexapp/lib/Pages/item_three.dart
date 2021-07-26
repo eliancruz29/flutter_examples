@@ -45,16 +45,21 @@ class _ItemThreeState extends State<ItemThree> {
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
                   var ourData = snapshot.data?[index];
-                  return Card(
-                    elevation: 10.0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Image.network(
-                        ourData?.get("img"),
-                        fit: BoxFit.cover,
+                  return InkWell(
+                    onTap: () {
+                      customDialog(context, ourData?.get("img"));
+                    },
+                    child: Card(
+                      elevation: 10.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Image.network(
+                          ourData?.get("img"),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   );
@@ -65,6 +70,30 @@ class _ItemThreeState extends State<ItemThree> {
           }
         },
       ),
+    );
+  }
+
+  customDialog(BuildContext ctx, String img) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height / 2,
+            width: MediaQuery.of(context).size.height,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20.0),
+              child: Image.network(
+                img,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
