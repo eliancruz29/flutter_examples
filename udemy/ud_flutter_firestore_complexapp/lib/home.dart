@@ -23,8 +23,92 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Complex App"),
+        title: const Text(
+          "Complex App",
+          style: TextStyle(
+            fontSize: 20.0,
+          ),
+        ),
         backgroundColor: Colors.deepOrange,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const UserAccountsDrawerHeader(
+              accountName: Text(
+                "Complex App",
+                style: TextStyle(fontSize: 25.0),
+              ),
+              accountEmail: null,
+              decoration: BoxDecoration(
+                color: Colors.deepOrange,
+              ),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (c) => pageOptions[0],
+                  ),
+                );
+              },
+              title: const Text(
+                "First item",
+                style: TextStyle(
+                  fontSize: 17.0,
+                  color: Colors.black,
+                ),
+              ),
+              leading: const Icon(
+                Icons.more,
+                color: Colors.black,
+              ),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (c) => pageOptions[1],
+                  ),
+                );
+              },
+              title: const Text(
+                "Home item",
+                style: TextStyle(
+                  fontSize: 17.0,
+                  color: Colors.black,
+                ),
+              ),
+              leading: const Icon(
+                Icons.home,
+                color: Colors.black,
+              ),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (c) => pageOptions[2],
+                  ),
+                );
+              },
+              title: const Text(
+                "Third item",
+                style: TextStyle(
+                  fontSize: 17.0,
+                  color: Colors.black,
+                ),
+              ),
+              leading: const Icon(
+                Icons.photo,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
       ),
       body: pageOptions[_indexPage],
       bottomNavigationBar: CurvedNavigationBar(
