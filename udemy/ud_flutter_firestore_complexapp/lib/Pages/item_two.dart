@@ -55,6 +55,7 @@ class _ItemTwoState extends State<ItemTwo> {
                 itemCount: snapshot.data?.length,
                 itemBuilder: (context, index) {
                   var ourData = snapshot.data?[index];
+                  print(snapshot.data);
                   var _color = _colorItem[index % _colorItem.length];
 
                   return Container(
@@ -75,7 +76,7 @@ class _ItemTwoState extends State<ItemTwo> {
                               children: <Widget>[
                                 CircleAvatar(
                                   child: Text(
-                                    ourData?.get("title")[0],
+                                    ourData?.get("title")?[0],
                                     style: const TextStyle(
                                       fontSize: 20.0,
                                       color: Colors.white,
