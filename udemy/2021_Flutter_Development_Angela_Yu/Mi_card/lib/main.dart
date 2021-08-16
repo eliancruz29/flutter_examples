@@ -6,36 +6,31 @@ void main() {
       home: Scaffold(
         backgroundColor: Colors.teal,
         body: SafeArea(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Column(
             children: [
-              Container(
-                width: 100.0,
-                color: Colors.red,
+              const CircleAvatar(
+                radius: 50.0,
+                backgroundImage: AssetImage('assets/images/elian.jpg'),
               ),
-              SizedBox(
-                width: 100.0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 100.0,
-                      height: 100.0,
-                      color: Colors.yellow,
-                    ),
-                    Container(
-                      width: 100.0,
-                      height: 100.0,
-                      color: Colors.green,
-                    ),
-                  ],
+              const Text(
+                'Elian Cruz',
+                style: TextStyle(
+                  fontFamily: 'Pacifico',
+                  fontSize: 40.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              Container(
-                width: 100.0,
-                color: Colors.blue,
-              ),
+              Text(
+                'SOFTWARE ENGINEER',
+                style: TextStyle(
+                  fontFamily: 'Source Sans Pro',
+                  fontSize: 20.0,
+                  color: Colors.teal.shade100,
+                  letterSpacing: 2.5,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
             ],
           ),
         ),
